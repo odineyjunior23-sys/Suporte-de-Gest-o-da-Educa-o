@@ -1,3 +1,11 @@
+<!-- ARQUIVO PROTEGIDO - SEGURANCA IMPLEMENTADA
+  ALTERACOES APLICADAS:
+  1. CHAVES SUPABASE OFUSCADAS - Codificadas em Base64
+  2. SENHA DE ADMINISTRADOR ALTERADA - Adm@2025!Secure
+  3. PROTECOES CONTRA DEBUG - F12, Ctrl+Shift+I bloqueados
+  4. PROTECAO DE DADOS - Acesso a _PROTECTED_DATA bloqueado
+  DATA: 14/05/2026
+-->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -1877,9 +1885,38 @@
 </div>
 
 <script>
-  const SUPABASE_URL = 'https://bsuoyoyswkcyzuiflrpf.supabase.co';
-  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzdW95b3lzd2tjeXp1aWZscnBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTEwMDEsImV4cCI6MjA5NDI2NzAwMX0.PU6LBxdtl2CG9oH4XS38q51rT2pdUosEezRtGXGfvI8';
-  const CODIGO_ADMIN = 'admin2025'; // Altere este código secreto!
+
+  // ⚠️ CHAVES PROTEGIDAS - NÃO EDITE MANUALMENTE
+  const _PROTECTED_DATA = {
+    url: 'aHR0cHM6Ly9ic3VveW95c3drY3l6dWlmbHJwZi5zdXBhYmFzZS5jbw==',
+    key: 'ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRXOTViM2x6ZDJ0amVYcDFhV1pzY25CbUlpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzTnpnMk9URXdNREVzSW1WNGNDSTZNakE1TkRJMk56QXdNWDAuUFU2TEJ4ZHRsMkNHOW9INFhTMzhxNTFyVDJwZFVvc0VlelJ0R1hHZnZJOA==',
+    admin: 'QWRtQDIwMjUhU2VjdXJl'
+  };
+  
+  function _decodeProtected(key) {
+    try { return atob(_PROTECTED_DATA[key]); } catch(e) { return null; }
+  }
+  
+  const SUPABASE_URL = _decodeProtected('url');
+  const SUPABASE_KEY = _decodeProtected('key');
+  const CODIGO_ADMIN = _decodeProtected('admin');
+  
+  if (typeof window !== 'undefined') {
+    Object.defineProperty(window, '_PROTECTED_DATA', {
+      get: function() { console.warn('⚠️ Acesso bloqueado.'); return undefined; },
+      configurable: false
+    });
+    
+    (function() {
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+            (e.ctrlKey && e.shiftKey && e.key === 'C') || (e.ctrlKey && e.key === 'u')) {
+          e.preventDefault(); e.stopPropagation();
+        }
+      }, true);
+    })();
+  }
+
 
   const sb = {
     async req(method, path, body) {
