@@ -1881,29 +1881,10 @@
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzdW95b3lzd2tjeXp1aWZscnBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTEwMDEsImV4cCI6MjA5NDI2NzAwMX0.PU6LBxdtl2CG9oH4XS38q51rT2pdUosEezRtGXGfvI8';
   const CODIGO_ADMIN = 'admin2025'; // Altere este código secreto!
 
-  
-  const _0x4a2e = {
-    'a': 'b2MuZXNhYmFwdXMucG5wcWh3YmhzZ296bmx4bXZjanMvLzpzcHR0aA==',
-    'b': 'OExaTUlPY2Y2Y1hIS19vNVVPTlBzUExvMG9aVzRVWmJvWkMyLVJrMFVOVi4wSE8zY1ROM1V6TTVBak02SUNjNFZtSXNnek4za1RPNWN6TjNFak9pUVhZcEpDTGk0MmJ1Rm1JNklTWnM5bWNpd2lJdzVHY3hoMmRpaDJjbjltZXV4R2V0WjNZcU5uSTZJaVpsSm5Jc0lTWnpGbVloQlhkekppT2lNM2NwSnllLjlKQ1ZYcGtJNklDYzVSbklzSWlOMUl6VUlKaU9pY0diaEp5ZQ==',
-    'c': 'ZXJ1Y2VTITUyMDJAbWRB'
-  };
-  function _0x1f3b(x) {
-    return atob(_0x4a2e[x]).split("").reverse().join("");
-  }
-  const SUPABASE_URL = _0x1f3b('a');
-  const SUPABASE_KEY = _0x1f3b('b');
-  const CODIGO_ADMIN = _0x1f3b('c');
-  
-  // Proteções silenciosas
-  (function() {
-    const _0x55ef = [window, document];
-    _0x55ef[1].addEventListener('keydown', e => {
-      if(['F12', 'I', 'C', 'u'].some(k => e.key === k)) {
-        if(e.ctrlKey || e.key === 'F12') e.preventDefault();
-      }
-    }, true);
-    Object.defineProperty(_0x55ef[0], '_0x4a2e', { get: () => undefined, configurable: false });
-  })();
+
+  // Configuração única do Supabase.
+  // Correção: havia uma segunda declaração de SUPABASE_URL, SUPABASE_KEY e CODIGO_ADMIN
+  // no mesmo escopo, causando erro de sintaxe e impedindo todos os cliques/funções do sistema.
 
   const sb = {
     async req(method, path, body) {
