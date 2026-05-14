@@ -2223,7 +2223,11 @@
       document.getElementById('local-custom').value='';
       document.getElementById('local-custom-wrap').style.display='none';
       document.getElementById('previa').classList.remove('active');
-      if(usuarioAtual.tipo==='admin') { atualizarStats(); renderLista(); }
+      if(usuarioAtual.tipo==='admin') { 
+        tocarSomNotificacao();
+        atualizarStats(); 
+        renderLista(); 
+      }
       showToast('Chamado #'+String(novo.id).padStart(4,'0')+' aberto com sucesso!');
     } catch(e) { showToast('Erro ao criar chamado: '+e.message,true); }
   }
