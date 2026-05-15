@@ -1879,7 +1879,8 @@
 <script>
   const SUPABASE_URL = 'https://bsuoyoyswkcyzuiflrpf.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzdW95b3lzd2tjeXp1aWZscnBmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2OTEwMDEsImV4cCI6MjA5NDI2NzAwMX0.PU6LBxdtl2CG9oH4XS38q51rT2pdUosEezRtGXGfvI8';
-  const CODIGO_ADMIN = 'admin2025'; // Altere este código secreto!
+  // Hash SHA-256 do código de autorização admin (a senha real nunca aparece no código)
+  const HASH_ADMIN = 'fa0b65ba5e64131cd1b719aa99c9d8922d03c370a652ead7dc73f6620da612b0';
 
 
   // Configuração única do Supabase.
@@ -1987,7 +1988,10 @@
     if (senha !== confirma)          return err('❌ As senhas não coincidem.');
     if (tipo === 'admin') {
       const codigo = document.getElementById('cad-codigo-admin').value;
-      if (codigo !== CODIGO_ADMIN)   return err('❌ Código de autorização incorreto.');
+      const enc = new TextEncoder().encode(codigo);
+      const buf = await crypto.subtle.digest('SHA-256', enc);
+      const hashDigitado = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+      if (hashDigitado !== HASH_ADMIN) return err('❌ Código de autorização incorreto.');
     }
     try {
       const existentes = await sb.get('usuarios?username=eq.'+encodeURIComponent(username)+'&select=id');
