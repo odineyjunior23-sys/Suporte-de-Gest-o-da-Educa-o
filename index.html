@@ -1689,7 +1689,7 @@
             <label class="assunto-item" onclick="toggleAssunto(this)">
               <input type="checkbox" value="APM"> <span>APM</span>
             </label>
-            <label class="assunto-item" onclick="toggleAssunto(this)">
+            <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoBravo(this)">
               <input type="checkbox" value="SISTEMA BRAVO"> <span>SISTEMA BRAVO</span>
             </label>
             <label class="assunto-item" onclick="toggleAssunto(this)">
@@ -1707,6 +1707,9 @@
             <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoOutros(this)">
               <input type="checkbox" value="OUTROS" id="cb-outros"> <span>OUTROS</span>
             </label>
+          </div>
+          <div id="bravo-wrap" style="display:none; margin-top:8px;">
+            <textarea id="bravo-texto" placeholder="Descreva o assunto do SISTEMA BRAVO..." style="width:100%;"></textarea>
           </div>
           <div id="outros-wrap" style="display:none; margin-top:8px;">
             <textarea id="outros-texto" placeholder="Descreva o assunto..." style="width:100%;"></textarea>
@@ -1838,7 +1841,7 @@
           <label class="assunto-item" onclick="toggleAssunto(this)">
             <input type="checkbox" value="APM"> <span>APM</span>
           </label>
-          <label class="assunto-item" onclick="toggleAssunto(this)">
+          <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoBravo(this, 'edit')">
             <input type="checkbox" value="SISTEMA BRAVO"> <span>SISTEMA BRAVO</span>
           </label>
           <label class="assunto-item" onclick="toggleAssunto(this)">
@@ -1856,6 +1859,9 @@
           <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoOutros(this, 'edit')">
             <input type="checkbox" value="OUTROS" id="edit-cb-outros"> <span>OUTROS</span>
           </label>
+        </div>
+        <div id="edit-bravo-wrap" style="display:none; margin-top:8px;">
+          <textarea id="edit-bravo-texto" placeholder="Descreva o assunto do SISTEMA BRAVO..."></textarea>
         </div>
         <div id="edit-outros-wrap" style="display:none; margin-top:8px;">
           <textarea id="edit-outros-texto" placeholder="Descreva o assunto..."></textarea>
@@ -2211,6 +2217,10 @@
         const txt=document.getElementById('outros-texto').value.trim();
         return txt?'OUTROS: '+txt:'OUTROS';
       }
+      if(cb.value==='SISTEMA BRAVO'){
+        const txt=document.getElementById('bravo-texto').value.trim();
+        return txt?'SISTEMA BRAVO: '+txt:'SISTEMA BRAVO';
+      }
       return cb.value;
     });
     const problema = assuntosSel.join(', ');
@@ -2227,6 +2237,8 @@
       });
       ['local','urgencia','tecnico'].forEach(id=>document.getElementById(id).value='');
       document.querySelectorAll('#assunto-group input[type="checkbox"]').forEach(cb=>{cb.checked=false; cb.closest('.assunto-item').classList.remove('marcado');});
+      document.getElementById('bravo-wrap').style.display='none';
+      document.getElementById('bravo-texto').value='';
       document.getElementById('outros-wrap').style.display='none';
       document.getElementById('outros-texto').value='';
       document.getElementById('nome-solicitante').value='';
@@ -2266,12 +2278,17 @@
     // Restaurar checkboxes de assunto no modal de edição
     const assuntosDoItem = (c.problema||'').split(',').map(s=>s.trim());
     let outrosTextoVal = '';
+    let bravoTextoVal = '';
     document.querySelectorAll('#edit-assunto-group input[type="checkbox"]').forEach(cb=>{
       let marcado = false;
       if(cb.value==='OUTROS'){
         const outrosEntry = assuntosDoItem.find(s=>s==='OUTROS'||s.startsWith('OUTROS:'));
         marcado = !!outrosEntry;
         if(outrosEntry && outrosEntry.includes(':')) outrosTextoVal = outrosEntry.split(':').slice(1).join(':').trim();
+      } else if(cb.value==='SISTEMA BRAVO'){
+        const bravoEntry = assuntosDoItem.find(s=>s==='SISTEMA BRAVO'||s.startsWith('SISTEMA BRAVO:'));
+        marcado = !!bravoEntry;
+        if(bravoEntry && bravoEntry.includes(':')) bravoTextoVal = bravoEntry.split(':').slice(1).join(':').trim();
       } else {
         marcado = assuntosDoItem.includes(cb.value);
       }
@@ -2286,6 +2303,16 @@
     } else {
       editOutrosWrap.style.display='none';
       editOutrosTexto.value='';
+    }
+    const editBravoWrap = document.getElementById('edit-bravo-wrap');
+    const editBravoTexto = document.getElementById('edit-bravo-texto');
+    const editCbBravo = document.querySelector('#edit-assunto-group input[value="SISTEMA BRAVO"]');
+    if(editCbBravo && editCbBravo.checked){
+      editBravoWrap.style.display='block';
+      editBravoTexto.value = bravoTextoVal;
+    } else {
+      editBravoWrap.style.display='none';
+      editBravoTexto.value='';
     }
     atualizarPreviaEdit();
     abrirModal('modal-editar');
@@ -2331,6 +2358,10 @@
       if(cb.value==='OUTROS'){
         const txt=document.getElementById('edit-outros-texto').value.trim();
         return txt?'OUTROS: '+txt:'OUTROS';
+      }
+      if(cb.value==='SISTEMA BRAVO'){
+        const txt=document.getElementById('edit-bravo-texto').value.trim();
+        return txt?'SISTEMA BRAVO: '+txt:'SISTEMA BRAVO';
       }
       return cb.value;
     });
@@ -2600,6 +2631,19 @@
       document.getElementById(wrapId).style.display = cb.checked ? 'block' : 'none';
       if(!cb.checked){
         const textoId = modo==='edit' ? 'edit-outros-texto' : 'outros-texto';
+        document.getElementById(textoId).value='';
+      }
+    }, 0);
+  }
+
+  function toggleAssuntoBravo(label, modo) {
+    const cb = label.querySelector('input[type="checkbox"]');
+    setTimeout(() => {
+      label.classList.toggle('marcado', cb.checked);
+      const wrapId = modo==='edit' ? 'edit-bravo-wrap' : 'bravo-wrap';
+      document.getElementById(wrapId).style.display = cb.checked ? 'block' : 'none';
+      if(!cb.checked){
+        const textoId = modo==='edit' ? 'edit-bravo-texto' : 'bravo-texto';
         document.getElementById(textoId).value='';
       }
     }, 0);
