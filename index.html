@@ -1692,6 +1692,9 @@
             <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoBravo(this)">
               <input type="checkbox" value="SISTEMA BRAVO"> <span>SISTEMA BRAVO</span>
             </label>
+            <div id="bravo-wrap" style="display:none;">
+              <textarea id="bravo-texto" placeholder="Descreva o assunto do SISTEMA BRAVO..." style="width:100%;border:1.5px solid var(--pri);border-radius:8px;padding:10px 14px;font-family:inherit;font-size:0.93rem;resize:vertical;outline:none;"></textarea>
+            </div>
             <label class="assunto-item" onclick="toggleAssunto(this)">
               <input type="checkbox" value="ADESÃO A PROGRAMAS"> <span>ADESÃO A PROGRAMAS</span>
             </label>
@@ -1707,9 +1710,6 @@
             <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoOutros(this)">
               <input type="checkbox" value="OUTROS" id="cb-outros"> <span>OUTROS</span>
             </label>
-          </div>
-          <div id="bravo-wrap" style="display:none; margin-top:8px;">
-            <textarea id="bravo-texto" placeholder="Descreva o assunto do SISTEMA BRAVO..." style="width:100%;"></textarea>
           </div>
           <div id="outros-wrap" style="display:none; margin-top:8px;">
             <textarea id="outros-texto" placeholder="Descreva o assunto..." style="width:100%;"></textarea>
@@ -1844,6 +1844,9 @@
           <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoBravo(this, 'edit')">
             <input type="checkbox" value="SISTEMA BRAVO"> <span>SISTEMA BRAVO</span>
           </label>
+          <div id="edit-bravo-wrap" style="display:none;">
+            <textarea id="edit-bravo-texto" placeholder="Descreva o assunto do SISTEMA BRAVO..." style="width:100%;border:1.5px solid var(--pri);border-radius:8px;padding:10px 14px;font-family:inherit;font-size:0.93rem;resize:vertical;outline:none;"></textarea>
+          </div>
           <label class="assunto-item" onclick="toggleAssunto(this)">
             <input type="checkbox" value="ADESÃO A PROGRAMAS"> <span>ADESÃO A PROGRAMAS</span>
           </label>
@@ -1859,9 +1862,6 @@
           <label class="assunto-item assunto-outros-label" onclick="toggleAssuntoOutros(this, 'edit')">
             <input type="checkbox" value="OUTROS" id="edit-cb-outros"> <span>OUTROS</span>
           </label>
-        </div>
-        <div id="edit-bravo-wrap" style="display:none; margin-top:8px;">
-          <textarea id="edit-bravo-texto" placeholder="Descreva o assunto do SISTEMA BRAVO..."></textarea>
         </div>
         <div id="edit-outros-wrap" style="display:none; margin-top:8px;">
           <textarea id="edit-outros-texto" placeholder="Descreva o assunto..."></textarea>
